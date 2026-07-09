@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-beige: #dacab0;
+  --color-brand-dark: #000002;
+  --color-brand-light: #faf8f4;
+  --color-brand-accent: #b8a486;
+}
+
+/* Custom global smooth scrolling and visual refinement */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
+
+/* Custom scrollbar to keep layout premium */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #faf8f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #dacab0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8a486;
+}

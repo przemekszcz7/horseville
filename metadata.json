@@ -1,0 +1,6 @@
+{
+  "name": "Horse Ville",
+  "description": "Wyjątkowa stadnina koni połączona z komfortowym noclegiem w malowniczej okolicy. Odkryj pasję, spokój i naturę.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
