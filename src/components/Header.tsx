@@ -15,6 +15,58 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.25, ease: 'easeInOut' } },
+  };
+
+  const panelVariants = {
+    hidden: { 
+      x: '100%',
+      transition: { 
+        type: 'spring', 
+        damping: 38, 
+        stiffness: 340,
+        mass: 0.9
+      } 
+    },
+    visible: {
+      x: 0,
+      transition: {
+        type: 'spring',
+        damping: 32,
+        stiffness: 260,
+        mass: 0.85,
+        staggerChildren: 0.04,
+        delayChildren: 0.08,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 25 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        type: 'spring', 
+        damping: 22, 
+        stiffness: 200 
+      } 
+    },
+  };
+
   const navItems = [
     { label: 'O nas', href: '#o-nas' },
     { label: 'Noclegi', href: '#noclegi' },
@@ -132,24 +184,27 @@ export default function Header() {
         {isOpen && (
           <motion.div
             id="mobile-nav-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
             className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={() => setIsOpen(false)}
           >
             <motion.div
               id="mobile-nav-panel"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              variants={panelVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
               className="absolute top-0 right-0 bottom-0 w-full max-w-sm bg-[#faf8f4] p-6 shadow-2xl flex flex-col justify-between"
               onClick={(e) => e.stopPropagation()}
             >
               <div>
-                <div className="flex items-center justify-between mb-8 border-b border-[#dacab0]/20 pb-4">
+                <motion.div 
+                  variants={itemVariants}
+                  className="flex items-center justify-between mb-8 border-b border-[#dacab0]/20 pb-4"
+                >
                   <div className="flex items-center gap-3">
                     <img
                       src={HERO_CONTENT.logo}
@@ -168,23 +223,29 @@ export default function Header() {
                   >
                     <X size={20} />
                   </button>
-                </div>
+                </motion.div>
 
                 <nav id="mobile-nav-links" className="flex flex-col gap-5">
                   {navItems.map((item) => (
-                    <a
+                    <motion.a
                       key={item.href}
                       href={item.href}
+                      variants={itemVariants}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-lg font-medium tracking-wide text-[#000002] hover:text-[#b8a486] py-1 border-b border-[#dacab0]/10 transition-colors"
+                      className="text-lg font-medium tracking-wide text-[#000002] hover:text-[#b8a486] py-1 border-b border-[#dacab0]/10 transition-colors block"
+                      whileHover={{ x: 6 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     >
                       {item.label}
-                    </a>
+                    </motion.a>
                   ))}
                 </nav>
               </div>
 
-              <div className="border-t border-[#dacab0]/20 pt-6 mt-6 flex flex-col gap-3">
+              <motion.div 
+                variants={itemVariants}
+                className="border-t border-[#dacab0]/20 pt-6 mt-6 flex flex-col gap-3"
+              >
                 <a
                   href={`tel:${CONTACT_INFO.phone.replace(/\s/g, '')}`}
                   className="flex items-center justify-center gap-3 text-sm font-mono tracking-wider uppercase border border-[#dacab0] text-[#000002] py-3 rounded-full hover:bg-[#dacab0]/10 transition-colors"
@@ -200,7 +261,7 @@ export default function Header() {
                   <Heart size={16} />
                   Zarezerwuj pobyt
                 </a>
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
